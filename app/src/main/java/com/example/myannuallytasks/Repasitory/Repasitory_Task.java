@@ -11,8 +11,8 @@ import java.util.UUID;
 public class Repasitory_Task {
     private static final Repasitory_Task instance = new Repasitory_Task();
      List<Task> mTasksToDo=new ArrayList<>();
-    private List<Task> mTasksDone=new ArrayList<>();
-    private List<Task> mTasksDoing=new ArrayList<>();
+     List<Task> mTasksDone=new ArrayList<>();
+     List<Task> mTasksDoing=new ArrayList<>();
     private List<Person> mPersons=new ArrayList<>();
     private List<Task> mTasksTotall=new ArrayList<>();
 
@@ -45,7 +45,7 @@ public void setDoingTasks(/*UUID taskId, State state*/ Task task) {
 }
 
 
-    public   List<Task>  getmTasksDoing(Task task){
+    public   List<Task>  getmTasksDoing(){
         return  mTasksDoing;
     }
     ///////////////////////////////////////////////

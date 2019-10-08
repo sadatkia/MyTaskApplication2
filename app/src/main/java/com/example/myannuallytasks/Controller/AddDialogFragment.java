@@ -1,8 +1,10 @@
 package com.example.myannuallytasks.Controller;
 
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +30,10 @@ import com.example.myannuallytasks.Repasitory.Repasitory_Task;
 import com.example.myannuallytasks.model.Task;
 
 import java.io.Serializable;
+import java.util.Date;
+
+import static android.app.Activity.RESULT_OK;
+import static com.example.myannuallytasks.Controller.To_Do_Fragment.REQUEST_CODE;
 
 
 /**
@@ -45,6 +52,7 @@ public class AddDialogFragment extends DialogFragment implements AdapterView.OnI
     private EditText mEditeTexe_Description;
 
     String item_todo_spinner;
+
     private  Task task=new Task();
 
     public AddDialogFragment() {
@@ -98,6 +106,8 @@ private String[] state= {"Doing","Done" ,"ToDo"};
         mEditeTexe_Description=view.findViewById(R.id.id_Discrption);
         spinner.setOnItemSelectedListener(this);
 
+        mButton_Date.setText(task.getmDate().toString());
+      //  mButton_Time.setText(task.getmTime().toString());
 //////////////Spiner Section
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
@@ -124,27 +134,58 @@ task=new Task();
 task.setmTitle(mEditeTexe_Title.getText().toString());
 task.setmDitaile(mEditeTexe_Description.getText().toString());
 State s=State.TODO;
-                if (item_todo_spinner=="ToDo")
+            if (item_todo_spinner.equals("ToDo"))
                 {
-
                     s =State.TODO;
+                    To_Do_Fragment to_do_fragment= (To_Do_Fragment) getTargetFragment();
+                    to_do_fragment.updateUI();
+
                 }
-                if (item_todo_spinner=="Doing")
+              else  if (item_todo_spinner.equals("Doing"))
                 {
                     s =State.DOING;
+                    Doing_Fragment doing_fragment= (Doing_Fragment) getTargetFragment();
+                    doing_fragment.updateUI_Doing();
+
+
                 }
-                if (item_todo_spinner=="Done")
+               else if (item_todo_spinner.equals("Done"))
                 {
                     s =State.DONE;
+                    Done_Fragment done_fragment  = (Done_Fragment) getTargetFragment();
+                    done_fragment.updateUI_Done();
+
                 }
-
-
-                ((To_Do_Fragment) getTargetFragment()).updateUI();////////////////////مهسا گفتهههههههههههه برای کست کردن و استفاده ی اپدیتتتتتتت    تابع واسمون دوباره اضافه کنه تسک ها راااااااا
-
-                 task.setmState(s);
-
-
+                task.setmState(s);
                 Repasitory_Task.getInstance().insertTask(task);
+
+   /*           if (s==State.DONE) {
+                  Done_Fragment done_fragment  = (Done_Fragment) getTargetFragment();
+                  done_fragment.updateUI_Done();
+              }
+
+             else if(s==State.DOING){
+                  Doing_Fragment doing_fragment= (Doing_Fragment) getTargetFragment();
+                  doing_fragment.updateUI_Doing();
+              }
+
+              else if(s==State.TODO){
+                  To_Do_Fragment to_do_fragment= (To_Do_Fragment) getTargetFragment();
+                  to_do_fragment.updateUI();
+              }
+*/
+                  //نشونه ی من  ((Done_Fragment)getActivity().getSupportFragmentManager().findFragmentById(R.id.pager)).updateUI();}
+                ////////////////////مهسا گفتهههههههههههه برای کست کردن و استفاده ی اپدیتتتتتتت    تابع واسمون دوباره اضافه کنه تسک ها راااااااا
+          /*   if (s==State.TODO){
+                    ((To_Do_Fragment)getActivity().getSupportFragmentManager().findFragmentById(R.id.pager)).updateUI();
+
+//if (s==State.DOING)
+   // ((Doing_Fragment) getTargetFragment()).updateUI();////////////////////مهسا گفتهههههههههههه برای کست کردن و استفاده ی اپدیتتتتتتت    تابع واسمون دوباره اضافه کنه تسک ها راااااااا
+               if (s==State.DOING){
+                   ((Doing_Fragment)getActivity().getSupportFragmentManager().findFragmentByIe3d(R.id.pager)).updateUI();
+                }
+*/
+
                // getActivity().getSupportFragmentManager().popBackStackImmediate();
 
 
@@ -171,8 +212,8 @@ getDialog().dismiss();
             @Override
             public void onClick(View view) {
 
-                DatePickerFragment datePickerFragment = DatePickerFragment.newInstance(task.getmDate());
-                datePickerFragment.setTargetFragment(AddDialogFragment.this, REQUEST_CODE_DATE_PICKER);
+                DatePickerFragment datePickerFragment = DatePickerFragment.newInstance(task.getmDate() );
+                datePickerFragment.setTargetFragment(AddDialogFragment.this, REQUEST_CODE_DATE_PICKER);//با این خط StartActivity ForResult انجام دادیم .رابطه ی پرنت چایلدی انجام دادیم
                 datePickerFragment.show(getFragmentManager(), TAG_DATE_PICKER);
 
 
@@ -207,5 +248,27 @@ getDialog().dismiss();
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+/*
+    public  void updatTaskDate(Date date){
+       task.setmDate(date);
+        mButton_Date.setText(date.toString());
+    }*/
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode != Activity.RESULT_OK || data == null)
+            return;
+
+        if (requestCode == REQUEST_CODE_DATE_PICKER) {
+            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_TASK_DATE);
+
+            task.setmDate(date);
+            mButton_Date.setText(date.toString());
+        }
+    }
+
+
 }
 

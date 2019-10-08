@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myannuallytasks.R;
+import com.example.myannuallytasks.Repasitory.Repasitory_Task;
 import com.example.myannuallytasks.model.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -36,6 +38,8 @@ public class Doing_Fragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private TaskAdapter_Doing mTaskAdapter_Doing ;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private List<Task> mTasksDoing = Repasitory_Task.getInstance().getmTasksDoing();
 
     public Doing_Fragment() {
         // Required empty public constructor
@@ -66,7 +70,17 @@ public void onCreate(@Nullable Bundle savedInstanceState) {
 
         mBackground = view.findViewById(R.id.id_imageView_RecycelerView);
         mFloatingAction_Doing=view.findViewById(R.id.id_floating_add_doing);
-        mRecyclerView=view.findViewById(R.id.id_imageView_RecycelerView);
+        mRecyclerView=view.findViewById(R.id.id_recyclerview_doing);
+
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+
+        updateUI_Doing();
+
+
+
+
         ////////////////////////Floating Action Button////////
         mFloatingAction_Doing.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +90,8 @@ public void onCreate(@Nullable Bundle savedInstanceState) {
 
                 getActivity().getSupportFragmentManager();
                 AddDialogFragment fragment=new AddDialogFragment();
+                fragment.setTargetFragment(Doing_Fragment.this, 2);/////////////اضافه کرد مهسسسسسسااااااااااااااااااااااا
+
                 fragment.show(getFragmentManager(), " My Add ");
             }
         });
@@ -104,7 +120,35 @@ public void onCreate(@Nullable Bundle savedInstanceState) {
                 return super.onOptionsItemSelected(item);
         }
     }
-/////////////////////////////////////Recyceler View Section////////////////
+
+
+
+
+    public void updateUI_Doing() {
+        if (mTaskAdapter_Doing == null) {
+            mTaskAdapter_Doing = new TaskAdapter_Doing(mTasksDoing);
+            mRecyclerView.setAdapter(mTaskAdapter_Doing);
+        } else {
+            mTaskAdapter_Doing.notifyDataSetChanged();
+        }
+
+
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI_Doing();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateUI_Doing();
+    }
+
+    /////////////////////////////////////Recyceler View Section////////////////
     private class TaskDoingHolder extends RecyclerView.ViewHolder {
 
         private TextView mTextViewTitle;
@@ -132,6 +176,8 @@ public void onCreate(@Nullable Bundle savedInstanceState) {
         public void bind(Task Task) {
             mTask = Task;
             mTextViewTitle.setText(Task.getmTitle());
+            mImageViewTask.setVisibility( View.VISIBLE);
+
             //mTextViewDate.setText(Task.getDate().toString());
             // mImageViewTask.setVisibility();
         }
@@ -140,14 +186,14 @@ public void onCreate(@Nullable Bundle savedInstanceState) {
     private class TaskAdapter_Doing extends RecyclerView.Adapter<TaskDoingHolder> {
 
         public static final String TAG = "TaskAdapter";
-        private List<Task> mTasks;
+
 
         public TaskAdapter_Doing(List<Task> Tasks) {
-            mTasks = Tasks;
+            mTasksDoing = Tasks;
         }
 
         public void setTasks(List<Task> Tasks) {
-            mTasks = Tasks;
+            mTasksDoing = Tasks;
         }
 
         @NonNull
@@ -156,18 +202,18 @@ public void onCreate(@Nullable Bundle savedInstanceState) {
             Log.d(TAG, "onCreateViewHolder");
             LayoutInflater inflater = LayoutInflater.from(getActivity());
             View view = inflater.inflate(R.layout.item_layout_recycelerview, parent, false);
-            return new Doing_Fragment.TaskDoingHolder(view);
+            return new TaskDoingHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull TaskDoingHolder holder, int position) {
             Log.d(TAG, "onBindViewHolder");
-            holder.bind(mTasks.get(position));
+            holder.bind(mTasksDoing.get(position));
         }
 
         @Override
         public int getItemCount() {
-            return mTasks.size();
+            return mTasksDoing.size();
         }
     }
 

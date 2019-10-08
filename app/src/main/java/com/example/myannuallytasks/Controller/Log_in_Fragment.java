@@ -14,7 +14,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.myannuallytasks.R;
+import com.example.myannuallytasks.model.Person;
 import com.example.myannuallytasks.model.Task;
+
+import java.io.Serializable;
 
 
 /**
@@ -27,6 +30,7 @@ public class Log_in_Fragment extends Fragment {
     public static final String USE = "use";
     public static final String USERNAME_LOGIN = "username_Login";
     public static final String PASS_WORD_LOGIN = "PassWord_Login";
+    public static final String PERSON_INTENT_DATA = "person intent data";
     ////////////////////////////////]initialaise Section//////////
     private EditText mEditText_userName;
     private EditText mEditText_passWord;
@@ -78,6 +82,12 @@ public class Log_in_Fragment extends Fragment {
 
                   Toast.makeText(getActivity(),"wellcome",Toast.LENGTH_SHORT).show();
                   Intent intent = new Intent(getActivity(), TaskActivity.class);
+          /*        Person person=new Person();
+                  person.setmPass(Integer.parseInt(mEditText_passWord.getText().toString()));
+                  person.setmUser( mEditText_userName.getText().toString());
+
+                  intent.putExtra(PERSON_INTENT_DATA, (Serializable) person);*/
+
                   int number = Integer.parseInt(mEditText_passWord.getText().toString());
                   intent.putExtra(USERNAME_LOGIN,  mEditText_userName.getText().toString());
                   intent.putExtra(PASS_WORD_LOGIN, number);

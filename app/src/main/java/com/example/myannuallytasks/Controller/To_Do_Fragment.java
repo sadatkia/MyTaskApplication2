@@ -43,7 +43,7 @@ public class To_Do_Fragment extends Fragment {
     private RecyclerView mRecyclerView;
  private TaskAdapter_To_Do mTaskAdapter_To_Do ;
     private RecyclerView.LayoutManager mLayoutManager;
-    private List<Task> mTasks_To_Do = new ArrayList<>();
+    private List<Task> mTasks_To_Do = Repasitory_Task.getInstance().getmTasksToDo();
 
     /////////////////////////////////////////
     public To_Do_Fragment() {
@@ -139,7 +139,7 @@ public class To_Do_Fragment extends Fragment {
 
     public void updateUI() {
         if (mTaskAdapter_To_Do == null) {
-            mTasks_To_Do = Repasitory_Task.getInstance().getmTasksToDo();
+
             mTaskAdapter_To_Do = new TaskAdapter_To_Do (mTasks_To_Do);
             mRecyclerView.setAdapter(mTaskAdapter_To_Do);
         } else {

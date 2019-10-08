@@ -5,12 +5,11 @@ import java.util.UUID;
 public class Person {
     private UUID mID;
     private String mUser;
-    private String mPass;
+    private int mPass;
 
-    public Person(UUID mID, String mUser, String mPass) {
-        this.mID = mID;
-        this.mUser = mUser;
-        this.mPass = mPass;
+    public Person() {
+        mID = UUID.randomUUID();
+
     }
 
     public UUID getmID() {
@@ -21,7 +20,7 @@ public class Person {
         return mUser;
     }
 
-    public String getmPass() {
+    public int getmPass() {
         return mPass;
     }
 
@@ -29,7 +28,7 @@ public class Person {
         this.mUser = mUser;
     }
 
-    public void setmPass(String mPass) {
+    public void setmPass(int mPass) {
         this.mPass = mPass;
     }
 }

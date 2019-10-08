@@ -18,18 +18,10 @@
         android:foregroundGravity="center"
         android:src="@android:drawable/ic_input_add" />
 
-    <ImageView
-        android:id="@+id/id_background_done"
-        android:layout_width="298dp"
-        android:layout_height="342dp"
-        android:background="@drawable/ic_launcher_background"
-        android:layout_gravity="center"
-        />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/id_recyclerview_done"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center">
 
     </androidx.recyclerview.widget.RecyclerView>
