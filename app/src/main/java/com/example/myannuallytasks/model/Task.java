@@ -13,16 +13,13 @@ public class Task {
     State mState;
     Date mDate;
     Date mTime;
-    String mUserName;
-    int mPassWord;
-    UUID userId;
 
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public void setUserId(UUID userId) {
-        this.userId = userId;
+    public Task(String mTitle, String mDitaile, State mState, Date mDate, Date mTime) {
+        this.mTitle = mTitle;
+        this.mDitaile = mDitaile;
+        this.mState = mState;
+        this.mDate = mDate;
+        this.mTime = mTime;
     }
 
     public Date getmTime() {
@@ -69,22 +66,7 @@ public class Task {
         this.mDate = mDate;
     }
 
-    public String getmUserName() {
-        return mUserName;
-    }
-
-    public int getmPassWord() {
-        return mPassWord;
-    }
-
-    public void setmUserName(String mUserName) {
-        this.mUserName = mUserName;
-    }
-
-    public void setmPassWord(int mPassWord) {
-        this.mPassWord = mPassWord;
-    }
-    /////////////////////////////
+     /////////////////////////////
     public Task() {
     id = UUID.randomUUID();
         mDate = generateRandomDate();
