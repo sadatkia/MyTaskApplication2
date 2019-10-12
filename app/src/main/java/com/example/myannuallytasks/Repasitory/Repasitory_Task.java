@@ -13,8 +13,7 @@ public class Repasitory_Task {
      List<Task> mTasksToDo=new ArrayList<>();
      List<Task> mTasksDone=new ArrayList<>();
      List<Task> mTasksDoing=new ArrayList<>();
-    private List<Person> mPersons=new ArrayList<>();
-    private List<Task> mTasksTotall=new ArrayList<>();
+
 
     public static Repasitory_Task getInstance() {
         return instance;

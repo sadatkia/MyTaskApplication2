@@ -82,6 +82,10 @@ public class To_Do_Fragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        /////////////////////////
+        mTaskAdapter_To_Do = new TaskAdapter_To_Do (mTasks_To_Do);
+
+
 
         updateUI();
 
@@ -138,16 +142,16 @@ public class To_Do_Fragment extends Fragment {
 //////////////////////RecyclerView Section
 
     public void updateUI() {
-        if (mTaskAdapter_To_Do == null) {
 
-            mTaskAdapter_To_Do = new TaskAdapter_To_Do (mTasks_To_Do);
+
             mRecyclerView.setAdapter(mTaskAdapter_To_Do);
-        } else {
+
             mTaskAdapter_To_Do.notifyDataSetChanged();
+            mTaskAdapter_To_Do.setTasks_TODO(mTasks_To_Do);
         }
 
 
-    }
+
 
   
     @Override
@@ -200,6 +204,15 @@ public class To_Do_Fragment extends Fragment {
         public TaskAdapter_To_Do(List<Task> Tasks_ToDo) {
             mTasks_To_Do = Tasks_ToDo;
         }
+
+public void setTasks_TODO(List<Task> Tasks_ToDo) {
+    mTasks_To_Do = Tasks_ToDo;
+
+}
+
+
+
+
 
         @NonNull
         @Override

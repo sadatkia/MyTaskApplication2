@@ -9,11 +9,14 @@
         android:id="@+id/id_textView_RecycelerView"
         android:layout_width="206dp"
         android:layout_height="74dp"
+        android:layout_margin="10dp"
+        android:padding="20dp"
         android:text="TextView" />
 
     <ImageView
         android:id="@+id/id_imageView_RecycelerView"
         android:layout_width="195dp"
         android:layout_height="74dp"
+        android:layout_margin="10dp"
         app:srcCompat="@android:drawable/btn_star_big_on" />
 </LinearLayout>

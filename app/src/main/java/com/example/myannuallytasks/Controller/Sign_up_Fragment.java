@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.myannuallytasks.R;
+import com.example.myannuallytasks.Repasitory.RepositoryPerson;
+import com.example.myannuallytasks.model.Person;
 
 
 /**
@@ -66,6 +68,9 @@ public class Sign_up_Fragment extends Fragment {
             public void onClick(View view) {
    /*             String user=mEditText_UserName.getText().toString();
                 int value=Integer.valueOf( mEditText_PassWord.getText().toString());*/
+                if (!(mEditText_UserName.getText().toString().equals("")) && !(mEditText_PassWord.getText().toString().equals(""))) {
+                    RepositoryPerson.getInstance().insert(new Person(mEditText_UserName.getText().toString(), mEditText_PassWord.getText().toString()));
+                }
               Intent intent = new Intent(getActivity(), Log_in_Activity.class);
                 int number = Integer.parseInt(mEditText_PassWord.getText().toString());
                 intent.putExtra(YOUR_USER_NAME ,  mEditText_UserName.getText().toString());

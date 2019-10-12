@@ -137,43 +137,35 @@ State s=State.TODO;
             if (item_todo_spinner.equals("ToDo"))
                 {
                     s =State.TODO;
-                    To_Do_Fragment to_do_fragment= (To_Do_Fragment) getTargetFragment();
-                    to_do_fragment.updateUI();
 
                 }
               else  if (item_todo_spinner.equals("Doing"))
                 {
                     s =State.DOING;
-                    Doing_Fragment doing_fragment= (Doing_Fragment) getTargetFragment();
-                    doing_fragment.updateUI_Doing();
-
 
                 }
                else if (item_todo_spinner.equals("Done"))
                 {
                     s =State.DONE;
-                    Done_Fragment done_fragment  = (Done_Fragment) getTargetFragment();
-                    done_fragment.updateUI_Done();
-
                 }
                 task.setmState(s);
                 Repasitory_Task.getInstance().insertTask(task);
 
-   /*           if (s==State.DONE) {
+           if (s==State.DONE  && getTargetFragment() instanceof Done_Fragment) {
                   Done_Fragment done_fragment  = (Done_Fragment) getTargetFragment();
                   done_fragment.updateUI_Done();
               }
 
-             else if(s==State.DOING){
+             else if(s==State.DOING && getTargetFragment() instanceof  Doing_Fragment){
                   Doing_Fragment doing_fragment= (Doing_Fragment) getTargetFragment();
                   doing_fragment.updateUI_Doing();
               }
 
-              else if(s==State.TODO){
+              else if(s==State.TODO  && getTargetFragment() instanceof  To_Do_Fragment){
                   To_Do_Fragment to_do_fragment= (To_Do_Fragment) getTargetFragment();
                   to_do_fragment.updateUI();
               }
-*/
+
                   //نشونه ی من  ((Done_Fragment)getActivity().getSupportFragmentManager().findFragmentById(R.id.pager)).updateUI();}
                 ////////////////////مهسا گفتهههههههههههه برای کست کردن و استفاده ی اپدیتتتتتتت    تابع واسمون دوباره اضافه کنه تسک ها راااااااا
           /*   if (s==State.TODO){
@@ -224,6 +216,7 @@ getDialog().dismiss();
         mButton_Time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
 
             }
         });

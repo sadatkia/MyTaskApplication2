@@ -5,17 +5,15 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.Toast;
+import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -23,7 +21,7 @@ import androidx.fragment.app.Fragment;
 import com.example.myannuallytasks.R;
 
 import java.sql.Time;
-import java.time.LocalDateTime;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -31,51 +29,50 @@ import java.util.GregorianCalendar;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DatePickerFragment extends DialogFragment {
-   // View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_time_picker, null, false);
-    private static final String ARG_TASK_DATE = "taskDate";
+public class TimePickerFragment extends DialogFragment {
+    // View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_time_picker, null, false);
+
     private static final String ARG_TASK_TIME = "taskTime";
-    public static final String EXTRA_TASK_DATE = "com.example.myannuallytasks.taskDate";
+    public static final String EXTRA_TASK_Time = "com.example.myannuallytasks.taskTime";
 
     private DatePicker mDatePicker;
-    private Date mDate;
+    private String mTime;
+    private TimePicker mTimePicker;
 
-    public static DatePickerFragment newInstance(Date date) {
-
-        Bundle args = new Bundle();
-        args.putSerializable(ARG_TASK_DATE, date);
-
-
-        DatePickerFragment fragment = new DatePickerFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-
-    public DatePickerFragment() {
+    public TimePickerFragment() {
         // Required empty public constructor
     }
 
+
+    public static TimePickerFragment newInstance(Date time) {
+
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_TASK_TIME, time);
+
+
+        TimePickerFragment fragment = new TimePickerFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-        mDate = (Date) getArguments().getSerializable(ARG_TASK_DATE);/////اطلاعات دراه میاد برای date peaker مون خودش رندم با garigory calender بصورت رندم داده یود یهش
-            }
-
+        mTime = (String) getArguments().getSerializable(ARG_TASK_TIME);/////اطلاعات دراه میاد برای date peaker مون خودش رندم با garigory calender بصورت رندم داده یود یهش
+    }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
         View view = layoutInflater
-                .inflate(R.layout.fragment_date_picker, null, false);////اینجا نقاشی  دیت پییییکر پیاده سازی شد
+                .inflate(R.layout.fragment_time_picker, null, false);////اینجا نقاشی  دیت پییییکر پیاده سازی شد
 
-        mDatePicker = view.findViewById(R.id.id_date_picker);
-       // mDatePicker.init(   نال   و     روز   و   ماه  و  سال)
+        mTimePicker = view.findViewById(R.id.id_button_Time);
+        // mDatePicker.init(   نال   و     روز   و   ماه  و  سال)
 
-        initDatePicker();
+        //initDTimePicker();
 
         return new AlertDialog.Builder(getActivity())
 
@@ -83,20 +80,12 @@ public class DatePickerFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         sendResult();
-
-                       ///ز اینترنت چگونگی گرفتن تاریخ را از DatePicker گرفتیم
-                        ///تابه پایین نوشته شده اینجا صداش کردیم
-                      /*  AddDialogFragment addDialogFragment= (AddDialogFragment) getTargetFragment();
-                        addDialogFragment.updatTaskDate(mDate);*/
-                      ///////با دو حط بالا date picher وابسته شد به AddDialogFragment
-                        //////پس برای ReUseble باید بصورت کلی تعریف شود و اطلاعات بفرستد
-
-                       // Toast.makeText(getActivity(), date.toSting,Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setView(view)
                 .create();
     }
+
 
     private void sendResult() {
         int year = mDatePicker.getYear();
@@ -107,20 +96,31 @@ public class DatePickerFragment extends DialogFragment {
         Date date = calendar.getTime();
 
         Intent intent = new Intent();
-        intent.putExtra(EXTRA_TASK_DATE, date);
+        intent.putExtra(EXTRA_TASK_Time, date);
 
         Fragment fragment = getTargetFragment();
         fragment.onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
     }
 
-    private void initDatePicker() {
+    private void initTimePicker() {
         Calendar calendar = Calendar.getInstance();///getInstance نشلنه ی singletone
-        calendar.setTime(mDate);
+        //calendar.setTime(mTime);
 
         int year = calendar.get(Calendar.YEAR);////از اینترنت گزفتیم
         int monthOfYear = calendar.get(Calendar.MONTH);
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
         mDatePicker.init(year, monthOfYear, dayOfMonth, null);
+
+        calendar = Calendar.getInstance();
+        int hour = mTimePicker.getCurrentHour();
+        int min = mTimePicker.getCurrentMinute();
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, min);
+        SimpleDateFormat mSDF = new SimpleDateFormat("hh:mm a");
+        mTime = mSDF.format(calendar.getTime());
+       // sendResult(mTime);
     }
+
+
 
 }
